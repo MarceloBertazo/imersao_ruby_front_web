@@ -31,3 +31,7 @@ Dado('que acesso a página de login\/cadastro') do
   Dado('preencho os campos do formulário com {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}') do | gender, first_name, last_name, password, day, month, year, newsletter, company, address, city, state, zip, mobile, addressAlias |
     @app.cadastropage.preencher_form_com_dados_do_exemplo(gender, first_name, last_name, password, day, month, year, newsletter, company, address, city, state, zip, mobile, addressAlias)
   end
+
+  Dado('preencho os campos do formulário com dados validos padrao') do
+    @app.cadastropage.preencher_form_com_dados_do_datafile
+  end
