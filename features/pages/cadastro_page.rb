@@ -8,40 +8,27 @@ class CadastroPage < SitePrism::Page
     
     
     #Mapeamento dos dados cadastrais
-    #mapeamento do título
     element :title_masculino_rd, '#id_gender1'
-    #mapeando o campo primeiro nome
+    element :title_feminino_rd, '#id_gender2'
     element :first_name_field, '#customer_firstname'
-    #mapeando o campo último nome
     element :last_name_field, '#customer_lastname'
-    ##mapeando o campo password
     element :password_field, '#passwd'
-    #mapeando o campo de seleção de dia de nascimento
     element :day_select, '#uniform-days'
     elements :day_options, '#uniform-days option'
-    #mapeando o campo de seleção de mês de nascimento
     element :month_select, '#uniform-months'
     elements :month_options, '#uniform-months option'
-    #mapeando o campo de seleção de ano de nascimento
     element :year_select, '#uniform-years'
     elements :year_options, '#uniform-years option'
-    #mapeando o check box newsleatter
     element :newsletter_checkbox, '#uniform-newsletter'
-    #mapeando o campo endereço
     element :address_field, '#address1'
-    #mapeando o campo cidade
     element :city_field, '#city'
-    #mapeando o campo de seleção de estado
     element :state_select, '#uniform-id_state'
     elements :state_options, '#uniform-id_state option'
-    #mapeamento o campo CEP
     element :zip_cod_field, '#postcode'
-    #mapeando o campo de celular
     element :mobile_phone_field, '#phone_mobile'
-    #mapeando o nome do endereço
     element :address_alias_field, '#alias'
 
-    #mapeamento do botão confirmar cadastro
+    #mapeamento do botão confirmar cadastro 
     element :register_btn, '#submitAccount'
 
     #variável utilizando @ é uma variável de instância, deixa de existir após a execução do método
@@ -57,85 +44,123 @@ class CadastroPage < SitePrism::Page
     end
 
     def preencher_form_com_dados_fixos
-        #selecionar o radio de título
         title_masculino_rd.set true
-        #Preencher o campo primeiro nome
+        #Begin first name data
         @@first_name = 'Marcelo'
         first_name_field.set @@first_name
-        #Preencher o campo último nome
+        #End first name data
+        #Begin last name data
         @@last_name = 'Paz'
         last_name_field.set @@last_name
-        #Preencher o campo password
+        #End last name data
         password_field.set '12345'
-        #Selecionar o campo de seleção de dia de nascimento
+        #Begin date data
         day_select.click
         option = day_options.find {|option| option.text.include?("11 ")}
         option.click
-        #Selecionar o campo de seleção de mês de nascimento
+        #End date data
+        #Begin month data
         month_select.click
         option = month_options.find {|option| option.text.include?("November ")}
         option.click
-        #Selecionar o campo de seleção de ano de nascimento
+        #End month data
+        #Begin year data
         year_select.click
         option = year_options.find {|option| option.text.include?("2011 ")}
         option.click
-        #Marcar o check box newsleatter
+        #End year data
         newsletter_checkbox.set true
-        #Preencher o campo endereço
         address_field.set 'Rua A, 15'
-        #Preencher o campo cidade
         city_field.set 'Porto Alegre'
-        #Selecionar o campo de seleção de estado
+        #Begin state data
         state_select.click
         option = state_options.find{|option| option.text.include?("Iowa")}
         option.click
-        #Preencher o campo CEP
+        #End state data
         zip_cod_field.set '12345'
-        #Preencher o campo de celular
         mobile_phone_field.set '5551988776655'
-        #Preencher o nome do endereço
         address_alias_field.set 'casa'
     end
 
     def preencher_form_com_dados_aleatorios
-        #selecionar o radio de título
         title_masculino_rd.set true
-        #Preencher o campo primeiro nome
+        #Begin first name data
         @@first_name = Faker::Name.first_name
         first_name_field.set @@first_name
-        #Preencher o campo último nome
+        #End first name data
+        #Begin last name data
         @@last_name = Faker::Name.last_name
         last_name_field.set @@last_name
-        #Preencher o campo password
+        #End last name data
         password_field.set Faker::Internet.password(min_length: 5, max_length: 10, mix_case: true, special_characters: true)
-        #Selecionar o campo de seleção de dia de nascimento
+        #Begin date data
         day_select.click
         option = day_options.find {|option| option.text.include?("11 ")}
         option.click
-        #Selecionar o campo de seleção de mês de nascimento
+        #End date data
+        #Begin month data
         month_select.click
         option = month_options.find {|option| option.text.include?("November ")}
         option.click
-        #Selecionar o campo de seleção de ano de nascimento
+        #End month data 
+        #Begin year data
         year_select.click
         option = year_options.find {|option| option.text.include?("2011 ")}
         option.click
-        #Marcar o check box newsleatter
+        #End year data
         newsletter_checkbox.set true
-        #Preencher o campo endereço
         address_field.set 'Rua A, 15'
-        #Preencher o campo cidade
         city_field.set 'Porto Alegre'
-        #Selecionar o campo de seleção de estado
+        #Begin state data
         state_select.click
         option = state_options.find{|option| option.text.include?("Iowa")}
         option.click
-        #Preencher o campo CEP
+        #End state data
         zip_cod_field.set '12345'
-        #Preencher o campo de celular
         mobile_phone_field.set Faker::PhoneNumber.cell_phone_in_e164
-        #Preencher o nome do endereço
         address_alias_field.set 'casa'
+    end
+
+    def preencher_form_com_dados_do_exemplo (gender, first_name, last_name, password, day, month, year, newsletter, company, address, city, state, zip, mobile, addressAlias)
+        gender.eql?('fem') ? title_feminino_rd.set(true) :  title_masculino_rd.set(true)
+        @@first_name = first_name
+        first_name_field.set @@first_name
+        #End first name data
+        #Begin last name data
+        @@last_name = last_name
+        last_name_field.set @@last_name
+        #End last name data
+        password_field.set password
+        #Begin date data
+        day_select.click
+        option = day_options.find {|option| option.text.include?(day)}
+        option.click
+        #End date data
+        #Begin month data
+        month_select.click
+        option = month_options.find {|option| option.text.include?(month)}
+        option.click
+        #End month data 
+        #Begin year data
+        year_select.click
+        option = year_options.find {|option| option.text.include?(year)}
+        option.click
+        #End year data
+        #Begin newsletter box
+        unless newsletter.eql?('no')
+            newsletter_checkbox.set true
+        end
+        #End newsletter box
+        address_field.set address
+        city_field.set city
+        #Begin state data
+        state_select.click
+        option = state_options.find{|option| option.text.include?(state)}
+        option.click
+        #End state data
+        zip_cod_field.set zip
+        mobile_phone_field.set mobile
+        address_alias_field.set addressAlias
     end
 
     def account_name
