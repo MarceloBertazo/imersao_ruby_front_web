@@ -6,7 +6,7 @@ Quero cadastrar uma conta
 Para efetuar compras
 
 @cadastro_dados_fixos
-Cenário: Cadastrar cliente com dados válidos fixos
+Cenário: CadastrarClienteDadosValidosFixos
 Dado que acesso a página de login/cadastro
 E solicito um novo cadastro para o email 'teste1989@teste.com.br'
 E preencho os campos do formulário com dados válidos fixos
