@@ -37,8 +37,15 @@ class CadastroPage < SitePrism::Page
 
     
     def iniciar_criacao_conta(email)
-       @email = email.eql?('aleatorio') ? Faker::Internet.email(domain: 'guts') : email 
-       email_create_account_field.set @email
+       case email
+       when 'aleatorio'
+            @email = Faker::Internet.email(domain: 'guts')
+       when 'padrao'
+            @email = UserData.get('email')
+       else 
+            @email = email
+       end
+        email_create_account_field.set @email
        #sleep (5)
        create_account_btn.click
     end
@@ -169,5 +176,47 @@ class CadastroPage < SitePrism::Page
 
     def confirmar_cadastro
         register_btn.click
+    end
+
+    def preencher_form_com_dados_do_datafile
+        UserData.get('gender').eql?('fem') ? title_feminino_rd.set(true) :  title_masculino_rd.set(true)
+        @@first_name = UserData.get('first_name')
+        first_name_field.set @@first_name
+        #End first name data
+        #Begin last name data
+        @@last_name = UserData.get('last_name')
+        last_name_field.set @@last_name
+        #End last name data
+        password_field.set UserData.get('password')
+        #Begin date data
+        day_select.click
+        option = day_options.find {|option| option.text.include?(UserData.get('day'))}
+        option.click
+        #End date data
+        #Begin month data
+        month_select.click
+        option = month_options.find {|option| option.text.include?(UserData.get('month'))}
+        option.click
+        #End month data 
+        #Begin year data
+        year_select.click
+        option = year_options.find {|option| option.text.include?(UserData.get('year'))}
+        option.click
+        #End year data
+        #Begin newsletter box
+        unless UserData.get('newsletter').eql?('no')
+            newsletter_checkbox.set true
+        end
+        #End newsletter box
+        address_field.set UserData.get('address')
+        city_field.set UserData.get('city')
+        #Begin state data
+        state_select.click
+        option = state_options.find{|option| option.text.include?(UserData.get('state'))}
+        option.click
+        #End state data
+        zip_cod_field.set UserData.get('zipcode')
+        mobile_phone_field.set UserData.get('phone')
+        address_alias_field.set UserData.get('address_name')        
     end
 end
