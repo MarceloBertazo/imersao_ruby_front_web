@@ -44,20 +44,27 @@ class CadastroPage < SitePrism::Page
     #mapeamento do botão confirmar cadastro
     element :register_btn, '#submitAccount'
 
+    #variável utilizando @ é uma variável de instância, deixa de existir após a execução do método
+    #variável utilizando @@ é uma variável de classe, existirá por todo ciclo do teste
+    #variável utilizando $ é uma variável global, poderá ser utilizada em qualquer lugar no código.
+
+    
     def iniciar_criacao_conta(email)
-       email_create_account_field.set email
-       #wait '5000'
-       create_account_btn.click 
-       #wait '5000'
+       @email = email.eql?('aleatorio') ? Faker::Internet.email(domain: 'guts') : email 
+       email_create_account_field.set @email
+       #sleep (5)
+       create_account_btn.click
     end
 
     def preencher_form_com_dados_fixos
         #selecionar o radio de título
         title_masculino_rd.set true
         #Preencher o campo primeiro nome
-        first_name_field.set 'Marcelo'
+        @@first_name = 'Marcelo'
+        first_name_field.set @@first_name
         #Preencher o campo último nome
-        last_name_field.set 'Paz'
+        @@last_name = 'Paz'
+        last_name_field.set @@last_name
         #Preencher o campo password
         password_field.set '12345'
         #Selecionar o campo de seleção de dia de nascimento
@@ -88,6 +95,51 @@ class CadastroPage < SitePrism::Page
         mobile_phone_field.set '5551988776655'
         #Preencher o nome do endereço
         address_alias_field.set 'casa'
+    end
+
+    def preencher_form_com_dados_aleatorios
+        #selecionar o radio de título
+        title_masculino_rd.set true
+        #Preencher o campo primeiro nome
+        @@first_name = Faker::Name.first_name
+        first_name_field.set @@first_name
+        #Preencher o campo último nome
+        @@last_name = Faker::Name.last_name
+        last_name_field.set @@last_name
+        #Preencher o campo password
+        password_field.set Faker::Internet.password(min_length: 5, max_length: 10, mix_case: true, special_characters: true)
+        #Selecionar o campo de seleção de dia de nascimento
+        day_select.click
+        option = day_options.find {|option| option.text.include?("11 ")}
+        option.click
+        #Selecionar o campo de seleção de mês de nascimento
+        month_select.click
+        option = month_options.find {|option| option.text.include?("November ")}
+        option.click
+        #Selecionar o campo de seleção de ano de nascimento
+        year_select.click
+        option = year_options.find {|option| option.text.include?("2011 ")}
+        option.click
+        #Marcar o check box newsleatter
+        newsletter_checkbox.set true
+        #Preencher o campo endereço
+        address_field.set 'Rua A, 15'
+        #Preencher o campo cidade
+        city_field.set 'Porto Alegre'
+        #Selecionar o campo de seleção de estado
+        state_select.click
+        option = state_options.find{|option| option.text.include?("Iowa")}
+        option.click
+        #Preencher o campo CEP
+        zip_cod_field.set '12345'
+        #Preencher o campo de celular
+        mobile_phone_field.set Faker::PhoneNumber.cell_phone_in_e164
+        #Preencher o nome do endereço
+        address_alias_field.set 'casa'
+    end
+
+    def account_name
+       "#{@@first_name} #{@@last_name}" 
     end
 
     def confirmar_cadastro
